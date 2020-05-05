@@ -1,0 +1,26 @@
+html {
+  height: 100vh;
+}
+
+body {
+  min-height: 100%;
+  background: url("/img/background.jpeg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+h1 {
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+ul {
+  list-style-type: none;
+}
+
+#loading {
+  font-size: 3rem;
+  margin-bottom: 100px;
+}
+
+.book {
+  height: 130px;
+}
