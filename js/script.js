@@ -4,6 +4,7 @@ $(document).ready(function () {
     .addClass("text-white mt-5 mt-md-0")
     .attr("id", "loading")
     .html("Loading ...");
+  var currentBook;
 
   function createBookListItem(book) {
     return $("<li>")
@@ -12,40 +13,53 @@ $(document).ready(function () {
       .html(`${book.title} by ${book.author}`);
   }
 
-  function createCardImage(src, alt) {
-    return $("<img>").addClass("card-img-top card-img").attr({ src, alt });
+  function createCardImage() {
+    return $("<img>")
+      .addClass("card-img-top card-img")
+      .attr({ src: currentBook.cover, alt: currentBook.title });
   }
 
-  function createCardBody() {}
-  function createBookInfoCard(book) {
-    var card = $("<div>")
-      .addClass("card mt-5 mt-md-0 mb-5 mx-auto text-center")
-      .css("width", "18rem");
-    var image = createCardImage(book.cover, book.title);
-
-    var cardBody = $("<div>").addClass("card-body");
-    var title = $("<h5>").addClass("card-title").html(book.title);
-    var subTitle = $("<h6>")
-      .addClass("card-subtitle")
-      .html(`By: ${book.author}`);
+  function createMetaDataList() {
     var list = $("<ul>").addClass("list-group list-group-flush");
     var keys = ["pages", "year", "language", "country", "link"];
     keys.forEach(function (key) {
-      var listItem = $("<div>").addClass("list-group-item");
-      if (key === "link") {
-        var link = $("<a>")
-          .attr({ href: book.link, target: "_blank" })
-          .addClass("btn btn-primary")
-          .html("Wikipedia");
-        listItem.append(link);
-      } else {
-        listItem.html(
-          `${key.charAt(0).toUpperCase() + key.substring(1)}: ${book[key]}`
-        );
-      }
-      list.append(listItem);
+      list.append(createMetaDataListItem(key));
     });
+
+    return list;
+  }
+  function createMetaDataListItem(key) {
+    var listItem = $("<div>").addClass("list-group-item");
+    if (key === "link") {
+      var link = $("<a>")
+        .attr({ href: currentBook.link, target: "_blank" })
+        .addClass("btn btn-primary")
+        .html("Wikipedia");
+      listItem.append(link);
+    } else {
+      listItem.html(
+        `${key.charAt(0).toUpperCase() + key.substring(1)}: ${currentBook[key]}`
+      );
+    }
+    return listItem;
+  }
+
+  function createCardBody() {
+    var cardBody = $("<div>").addClass("card-body");
+    var title = $("<h5>").addClass("card-title").html(currentBook.title);
+    var subTitle = $("<h6>")
+      .addClass("card-subtitle")
+      .html(`By: ${currentBook.author}`);
+    var list = createMetaDataList();
     cardBody.append([title, subTitle, list]);
+    return cardBody;
+  }
+  function createCard() {
+    var card = $("<div>")
+      .addClass("card mt-5 mt-md-0 mb-5 mx-auto text-center")
+      .css("width", "18rem");
+    var image = createCardImage();
+    var cardBody = createCardBody();
     card.append([image, cardBody]);
     return card;
   }
@@ -75,9 +89,10 @@ $(document).ready(function () {
           $(".card").remove();
           $("#book-info").append(loading);
         },
-      }).done(function (book) {
+      }).done(function (data) {
         loading.remove();
-        $("#book-info").append(createBookInfoCard(book));
+        currentBook = data;
+        $("#book-info").append(createCard());
       });
     });
   });

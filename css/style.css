@@ -9,12 +9,12 @@ body {
   font-family: sans-serif;
 }
 
-.hidden {
-  display: none;
-}
-
 ul {
   list-style-type: none;
+}
+
+.hidden {
+  display: none;
 }
 
 .cursor-pointer {
@@ -35,7 +35,3 @@ ul {
 #loading {
   font-size: 3rem;
 }
-
-/* .card-img {
-  object-fit: cover;
-  /* max-height: 300px; */
