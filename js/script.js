@@ -10,7 +10,7 @@ $(document).ready(function () {
   }).done(function (data) {
     $("#loading").hide();
     data.forEach((book) => {
-      var button = $("<button></button>")
+      var button = $("<button>")
         .addClass("btn book btn-light mx-3 my-3 w-25")
         .attr("id", book.id)
 
@@ -28,24 +28,24 @@ $(document).ready(function () {
         },
       }).done(function (data) {
         $("#loading").hide();
-        var card = $("<div></div>")
+        var card = $("<div>")
           .addClass("card mb-5 mx-auto text-center")
           .css("width", "18rem");
         var image = $("<img>")
           .addClass("card-img-top")
           .attr({ src: data.cover, alt: data.title });
 
-        var cardBody = $("<div></div>").addClass("card-body");
-        var title = $("<h5></h5>").addClass("card-title").html(data.title);
-        var subTitle = $("<h6></h6>")
+        var cardBody = $("<div>").addClass("card-body");
+        var title = $("<h5>").addClass("card-title").html(data.title);
+        var subTitle = $("<h6>")
           .addClass("card-subtitle")
           .html(`By: ${data.author}`);
-        var list = $("<ul></ul>").addClass("list-group list-group-flush");
+        var list = $("<ul>").addClass("list-group list-group-flush");
         var keys = ["pages", "year", "language", "country", "link"];
         keys.forEach(function (key) {
-          var listItem = $("<div></div>").addClass("list-group-item");
+          var listItem = $("<div>").addClass("list-group-item");
           if (key === "link") {
-            var link = $("<a></a>")
+            var link = $("<a>")
               .attr({ href: data.link, target: "_blank" })
               .addClass("btn btn-primary")
               .html("Wikipedia");
