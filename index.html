@@ -19,17 +19,18 @@
     <title>Project 3</title>
   </head>
   <body>
-    <div class="text-center">
-      <h1 class="text-white">Check Out The Following Books!</h1>
-      <ul
-        id="book-list"
-        class="pb-4 d-flex flex-wrap align-items-center justify-content-center"
-      ></ul>
-
-      <div class="text-white" id="loading">
-        Loading ...
+    <div id="main" class="container hidden">
+      <h1 class="text-white text-center my-5">
+        Check Out The Following Books!
+      </h1>
+      <div class="row">
+        <div class="col-md-6">
+          <ul id="book-list" class="list-group"></ul>
+        </div>
+        <div class="col-md-6 flex" id="book-info"></div>
       </div>
     </div>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
