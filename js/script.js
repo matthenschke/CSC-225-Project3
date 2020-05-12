@@ -1,11 +1,4 @@
 $(document).ready(function () {
-  var url = "http://csc225.mockable.io/books";
-  var loading = $("<div>")
-    .addClass("text-white mt-5 mt-md-0")
-    .attr("id", "loading")
-    .html("Loading ...");
-  var currentBook;
-
   function createBookListItem(book) {
     return $("<li>")
       .addClass("list-group-item cursor-pointer hover")
@@ -63,37 +56,46 @@ $(document).ready(function () {
     card.append([image, cardBody]);
     return card;
   }
+  var url = "http://csc225.mockable.io/books";
+  var loading = $("<div>")
+    .addClass("text-white mt-5 mt-md-0")
+    .attr("id", "loading")
+    .html("Loading ...");
+  var currentBook;
 
-  $.ajax({
-    type: "GET",
-    url,
-    beforeSend: function () {
-      $("body").addClass("flex");
-      $("body").append(loading);
-    },
-  }).done(function (data) {
-    loading.remove();
-    $("body").removeClass("flex");
-    $("#main").removeClass("hidden");
-    data.forEach((book) => {
-      $("#book-list").append(createBookListItem(book));
-    });
+  $("body").addClass("flex");
+  $("body").append(loading);
 
-    $(".list-group-item").click(function () {
-      $(".list-group-item").removeClass("active");
-      $(this).addClass("active");
-      $.ajax({
-        type: "GET",
-        url: url + "/" + $(this).data("bookId"),
-        beforeSend: function () {
-          $(".card").remove();
-          $("#book-info").append(loading);
-        },
-      }).done(function (data) {
-        loading.remove();
-        currentBook = data;
-        $("#book-info").append(createCard());
+  axios
+    .get(url)
+    .then(function (res) {
+      var data = res.data;
+      loading.remove();
+      $("body").removeClass("flex");
+      $("#main").removeClass("hidden");
+      data.forEach((book) => {
+        $("#book-list").append(createBookListItem(book));
       });
+
+      $(".list-group-item").click(function () {
+        $(".list-group-item").removeClass("active");
+        $(this).addClass("active");
+        $(".card").remove();
+        $("#book-info").append(loading);
+        axios
+          .get(url + "/" + $(this).data("bookId"))
+          .then(function (res) {
+            var data = res.data;
+            loading.remove();
+            currentBook = data;
+            $("#book-info").append(createCard());
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
     });
-  });
 });
